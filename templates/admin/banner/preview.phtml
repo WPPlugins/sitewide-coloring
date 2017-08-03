@@ -1,0 +1,32 @@
+<div id="postimagediv" class="postbox">
+    <h3 class="sitewide_block_title">Example</h3>
+    <div class="inside">
+            <% for (var paragraph in paragraphsTexts) { %>
+                <% if (banners[paragraph]) { %>
+                    <% for (var i = 0; i < banners[paragraph].length; i++) { %>
+                        <% if (banners[paragraph][i].position == "Above") { %>
+                            <div class="block_example">Block #<%= banners[paragraph][i].index + 1 %></div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+                <p>
+                    <% if (banners[paragraph]) { %>
+                        <% for (var i = 0; i < banners[paragraph].length; i++) { %>
+                            <% if (!~["Below", "Above"].indexOf(banners[paragraph][i].position)) { %>
+                                <span class="block_example <%= banners[paragraph][i].position.toLowerCase() %>">Block #<%= banners[paragraph][i].index + 1 %></span>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                    <%= paragraphsTexts[paragraph] %>
+                </p>
+                <% if (banners[paragraph]) { %>
+                    <% for (var i = 0; i < banners[paragraph].length; i++) { %>
+                        <% if (banners[paragraph][i].position == "Below") { %>
+                            <div class="block_example">Block #<%= banners[paragraph][i].index + 1 %></div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+        <% } %>
+        <div class="clearfix"></div>
+    </div>
+</div>

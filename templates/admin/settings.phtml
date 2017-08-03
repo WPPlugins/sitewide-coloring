@@ -1,0 +1,118 @@
+<?php if ($request->isPost()): ?>
+    <script>location.href = '<?php echo $request->getOriginalUri() ?>';</script>
+<?php else: ?>
+    <div class="wrap">
+        <h2>SITEWIDE BANNERS</h2>
+        <form action="<?php echo $request->getUri(['do' => 'submit']) ?>" method="POST">
+            <?php if ($request->hasBeenSubmitted()) : ?>
+                <div id="setting-error-settings_updated" class="updated settings-error">
+                    <p><strong>Settings saved.</strong></p>
+                </div>
+            <?php endif; ?>
+
+            <table class="wp-list-table widefat fixed posts">
+                <thead>
+                    <tr>
+                        <th scope="col" class="manage-column column-title">
+                            Title
+                        </th>
+                        <th colspan="2" scope="col" class="manage-column column-title">
+                            <label>
+                                <input type="radio" name="banner_device_toggle" value="0" checked id="desktop_content_btn"/>
+                                Desktop content
+                            </label>
+                            <label>
+                                <input type="radio" name="banner_device_toggle" value="1" id="mobile_content_btn" />
+                                Mobile content (<=600px)
+                            </label>
+                        </th>
+                        <th scope="col" class="manage-column column-title">
+                            Position
+                        </th>
+                        <th scope="col" class="manage-column column-title">
+                            Paragraph
+                        </th>
+                        <th scope="col" class="manage-column column-title">
+                            Remove
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody id="box_list">
+                    <?php if ($options['sitewide_box']) : ?>
+                        <?php foreach ($options['sitewide_box'] as $index => $bannerOptions) : ?>
+                            <?php
+                                echo $this->render('admin/banner/form', array_merge(compact(
+                                    'positions',
+                                    'paragraphsPosition',
+                                    'bannerOptions'
+                                ), [
+                                    'index' => $index + 1
+                                ]));
+                            ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+
+            <p class="submit banners_list_submit">
+                <button class="button button-primary" type="button" id="add_block">Add block</button>
+                <input type="submit" class="button button-primary save_changes" value="Save Changes">
+            </p>
+
+            <div id="display_poststuff" class="display_sttings">
+                <div id="postimagediv" class="postbox">
+                    <h3 class="sitewide_block_title">DISPLAY SETTINGS</h3>
+                    <div class="inside">
+                        <div class="sitewide_display_block sitewide_display_block_slugs">
+                            <label for="sitewide_slugs">Do not display blocks on pages with the following slugs:</label>
+                            <textarea name="sitewide[sitewide_slugs]" id="sitewide_slugs" placeholder="Enter slug"><?php echo $options['sitewide_slugs']; ?></textarea>
+                        </div>
+                        <div class="sitewide_display_block sitewide_display_block_ids">
+                            <select id="display_rules" class="dropdown" name="sitewide[sitewide_display_rules]">
+                                <?php foreach ($displayRules as $index => $rule): ?>
+                                    <option value="<?php echo $index ?>" <?php if ($options['sitewide_display_rules'] == $index): ?> selected<?php endif; ?>><?php echo $rule; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <textarea name="sitewide[sitewide_page_ids]" placeholder = "Field is empty" id="sitewide_page_ids"><?php echo $options['sitewide_page_ids']; ?></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p class="submit banners_list_submit">
+                <input type="submit" name="submit" id="submit" class="button button-primary save_changes" value="Save Changes">
+            </p>
+
+            <div id="poststuff" class="sitewide_example">
+
+            </div>
+        </form>
+    </div>
+    <div id="modal_form" class="modal"> 
+          <span id="modal_close">X</span>
+          <div class="popup_title"> Are you sure you want to delete Block № <span class="number"></span>?</div>
+          <button class="remove_box_yes remove_box_popup">Yes</button>
+          <button class="remove_box_no remove_box_popup">No</button>
+    </div>
+    <div id="overlay"></div>
+    <script type="application/x-template" id="settings-banner-form">
+        <?php
+            echo $this->render('admin/banner/form', array_merge(compact(
+                'positions',
+                'paragraphsPosition'
+            ), [
+                'index' => '<%= index %>',
+                'bannerOptions' => [
+                    'desktop_content' => '',
+                    'mobile_content' => '',
+                    'paragraph' => 1,
+                    'position' => 'Above'
+                ]
+            ]));
+        ?>
+    </script>
+    <script type="application/x-template" id="settings-banners-preview">
+        <?php echo $this->render('admin/banner/preview'); ?>
+    </script>
+<?php endif; ?>

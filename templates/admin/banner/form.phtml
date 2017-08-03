@@ -1,0 +1,22 @@
+<tr>
+    <td class="block_wrap">
+        Block #<span class="block_number"><?php echo $index ?></span>
+    </td>
+    <td colspan="2" class="desktop_content_block"><textarea name="sitewide[desktop_content][]" placeholder="Enter html or text""><?php echo $bannerOptions['desktop_content']; ?></textarea></td>
+    <td colspan="2" class="mobile_content_block hiddenBox"><textarea name="sitewide[mobile_content][]" placeholder="Enter html or text"><?php echo $bannerOptions['mobile_content']; ?></textarea></td>
+    <td><select class="position dropdown" name="sitewide[position][]">
+            <?php foreach ($positions as $position): ?>
+                <option value="<?php echo $position; ?>" <?php if ($bannerOptions['position'] == $position): ?>selected<?php endif; ?>><?php echo $position; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </td>
+    <td><select class="paragraph dropdown" name="sitewide[paragraph][]">
+            <?php foreach ($paragraphsPosition as $index => $paragraph): ?>
+                <option value="<?php echo $index; ?>" <?php if ($bannerOptions['paragraph'] == $index): ?>selected<?php endif; ?>><?php echo $paragraph; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </td>
+    <td>
+        <a class="remove_box" href="#">Remove</a>
+    </td>
+</tr>
